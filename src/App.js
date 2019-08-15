@@ -1,26 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
+import 'normalize.css';
 import './App.css';
+import Input from './components/input';
+import Item from './components/items'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component{
+  constructor(){
+    super()
+    this.state = {
+      newTodo: '',
+      toDoLists: [
+        {id:'1', title:'GOAL 01'},
+        {id:'2', title:'GOAL 02'},
+        {id:'3', title:'GOAL 03'},
+        {id:'4', title:'GOAL 04'},
+        {id:'5', title:'GOAL 05'},
+      ]
+    }
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <header className="App-header">
+          <span className="ttl">ToDo<i className="iconfont icon-todo"></i></span>
+        </header>
+        <div className="top">
+          <h1>今日目标</h1>
+          <div className="input">
+            <Input content={this.state.newTodo}/>
+            <button className="add"><i className="iconfont icon-zhuijia"></i></button>
+          </div>
+        </div>
+        <div className="items"><Item ToDo={this.state.toDoLists}/></div>
+      </div>
+    )
+  }
 }
 
 export default App;
