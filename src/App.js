@@ -10,12 +10,9 @@ class App extends React.Component{
     super()
     this.state = {
       newTodo: '',
+      index: 1,
       toDoLists: [
-        {id:'1', title:'GOAL 01'},
-        {id:'2', title:'GOAL 02'},
-        {id:'3', title:'GOAL 03'},
-        {id:'4', title:'GOAL 04'},
-        {id:'5', title:'GOAL 05'},
+        {id:this.index, title:'GOAL 01',content:'等待添加'}
       ]
     }
   }
@@ -29,7 +26,7 @@ class App extends React.Component{
         <div className="top">
           <h1>今日目标</h1>
           <div className="input">
-            <Input content={this.state.newTodo}/>
+            <Input content={this.state.newTodo} submitOn={this.add.bind(this)}/>
             <button className="add"><i className="iconfont icon-zhuijia"></i></button>
           </div>
         </div>
@@ -37,6 +34,49 @@ class App extends React.Component{
       </div>
     )
   }
+
+  add(e){
+    if(this.state.index !== undefined){
+      if(this.state.index>1){
+        console.log(this.state.toDoLists)
+        this.state.toDoLists.push({
+          id: this.idMaker(),
+          title: `GOAL 0${this.state.index}`,
+          content: e.target.value
+        })
+        this.setState({
+          newTodo: '',
+          toDoLists: this.state.toDoLists
+        })
+      }else{
+        this.setState({
+          toDoLists: [
+            {id:'1', 
+            title:'GOAL 01',content:e.target.value}
+          ]
+        })
+        this.idMaker()
+      }
+    }else{
+      alert("已达到添加上限！")
+    }
+  }
+
+  idMaker(){
+    if(this.state.index<5){
+      let number = this.state.index + 1
+      this.setState({
+        index: number
+      })
+    }else{
+      this.setState({
+        index: undefined
+      })
+    }
+
+    console.log(this.state.index)
+  }
+
 }
 
 export default App;

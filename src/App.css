@@ -106,3 +106,11 @@
   margin-right: 0;
 }
 
+.items ol li .content{
+  font-weight: lighter;
+  padding: 10px 0;
+  word-break: break-all;
+  text-align: left;
+}
+
+
