@@ -19,6 +19,12 @@
   text-align: left;
 }
 
+.App-header h1{
+  display: inline-block;
+  float: right;
+  font-weight: lighter;
+}
+
 .ttl{
   display: inline-block;
   font-size: 39px;
@@ -33,18 +39,27 @@
   padding-left: 10px;
   font-size: 32px;
 }
-
 .top{
-  display: flex;
-  align-items: baseline;
+  margin-top: 20px;
 }
-.top h1{
+.top:after{
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+.top h2{
+  display: inline-block;
   text-align: left;
   font-family: "微软雅黑";
-  padding: 20px 0;
-  margin-right: 20px;
+  float: left;
 }
-
+.top .input{
+  display: inline-block;
+  float: right;
+}
 .top .input input{
   border: none;
   background: #6DBCAF;
@@ -52,7 +67,6 @@
   border-radius: 10px;
   height: 36px;
   padding: 10px;
-  margin-left: 400px;
 }
 .top .input input:focus{
   outline: none;

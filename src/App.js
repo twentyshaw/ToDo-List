@@ -3,16 +3,17 @@ import 'normalize.css';
 import './App.css';
 import Input from './components/input';
 import Item from './components/items';
-import * as localStore from './localstorage'
-
+import UserDialog from './user'
+import { getUserCurrent, signOut } from './leanCloud'
 
 class App extends React.Component{
   constructor(){
     super()
     this.state = {
       newTodo: '',
+      user:getUserCurrent() || {},
       index: 0,
-      toDoLists: localStore.load('toDoLists') || [
+      toDoLists: [
         {id:this.index, 
          title:'GOAL',
          content:'等待添加',
@@ -36,9 +37,11 @@ class App extends React.Component{
       <div className="App">
         <header className="App-header">
           <span className="ttl">ToDo<i className="iconfont icon-todo"></i></span>
+          <h1>Welcome! { this.state.user.username || ""}</h1>
+          {this.state.user.id? <button onClick={this.signOut.bind(this)}>注销登陆</button>: null} 
         </header>
         <div className="top">
-          <h1>今日目标</h1>
+          <h2>今日目标</h2>
           <div className="input">
             <Input 
             content={this.state.newTodo}
@@ -50,12 +53,21 @@ class App extends React.Component{
         <div className="items">
           <ol>{todos}</ol>
         </div>
+        {this.state.user.id?
+          null:
+          <UserDialog onSignup={this.onSignupOrSignIn.bind(this)}
+                      onSignIn={this.onSignupOrSignIn.bind(this)}/>}
       </div>
     )
   }
 
   componentDidUpdate(){
-    localStore.save('toDoLists',this.state.toDoLists)
+  }
+
+  onSignupOrSignIn(user){
+    let stateCopy = JSON.parse(JSON.stringify(this.state))
+    stateCopy.user = user
+    this.setState(stateCopy)
   }
 
   changeCont(e){
@@ -111,6 +123,13 @@ class App extends React.Component{
     this.setState({
       deleted:true
     })
+  }
+
+  signOut(){
+    signOut()
+    let stateCopy = JSON.parse(JSON.stringify(this.state))
+    stateCopy.user = {}
+    this.setState(stateCopy)
   }
 
 }
