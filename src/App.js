@@ -35,10 +35,20 @@ class App extends React.Component{
     })
     return (
       <div className="App">
+        {this.state.user.id?
+          null:
+          <UserDialog onSignup={this.onSignupOrSignIn.bind(this)}
+                      onSignIn={this.onSignupOrSignIn.bind(this)}/>}
         <header className="App-header">
-          <span className="ttl">ToDo<i className="iconfont icon-todo"></i></span>
-          <h1>Welcome! { this.state.user.username || ""}</h1>
-          {this.state.user.id? <button onClick={this.signOut.bind(this)}>注销登陆</button>: null} 
+          <div className="ttl">ToDo<i className="iconfont icon-todo"></i></div>
+          <div className="user-bar">
+            <h1>Welcome! { this.state.user.username || ""}</h1>
+            {this.state.user.id? 
+            <button onClick={this.signOut.bind(this)}>
+              <i className="iconfont icon-sign_out"></i>
+              <span className="hide">注销登陆</span>
+            </button>:null}
+          </div> 
         </header>
         <div className="top">
           <h2>今日目标</h2>
@@ -47,16 +57,12 @@ class App extends React.Component{
             content={this.state.newTodo}
             onChange={this.changeCont.bind(this)} 
             submitOn={this.add.bind(this)}/>
-            <button className="btn add"><i className="iconfont icon-zhuijia"></i></button>
+            <span className="add"><i className="iconfont icon-enter1"></i></span>
           </div>
         </div>
         <div className="items">
           <ol>{todos}</ol>
         </div>
-        {this.state.user.id?
-          null:
-          <UserDialog onSignup={this.onSignupOrSignIn.bind(this)}
-                      onSignIn={this.onSignupOrSignIn.bind(this)}/>}
       </div>
     )
   }

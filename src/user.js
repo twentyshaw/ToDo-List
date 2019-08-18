@@ -6,10 +6,11 @@ class userDialog extends React.Component{
     constructor(){
         super()
         this.state = {
-            slected: 'signUp',
+            slected: 'signIn',
             formData: {
                 username: '',
-                password: ''
+                password: '',
+                email:''
             }
         }
     }
@@ -18,18 +19,24 @@ class userDialog extends React.Component{
         let signUpForm = (
             <form className="signup" onSubmit={this.signUp.bind(this)}>
                 <div className="row">
-                    <label>用户名</label>
+                    <label><i className="iconfont icon-user"></i></label>
                     <input type="text" placeholder="请设定用户名"
                            value={this.state.formData.username}
                            onChange={this.changeFormData.bind(this,'username')}/>
                 </div>
                 <div className="row">
-                    <label>密码</label>
+                    <label><i className="iconfont icon-mail"></i></label>
+                    <input type="text" placeholder="请输入您的电子邮件地址"
+                           value={this.state.formData.email}
+                           onChange={this.changeFormData.bind(this,'email')}/>
+                </div>
+                <div className="row">
+                    <label><i className="iconfont icon-pswd"></i></label>
                     <input type="password" placeholder="请设定密码"
                            value={this.state.formData.password}
                            onChange={this.changeFormData.bind(this,'password')}/>
                 </div>
-                <div className="row action">
+                <div className="action">
                     <button type="submit">注册</button>
                 </div>
             </form>
@@ -38,37 +45,41 @@ class userDialog extends React.Component{
         let signInForm = (
             <form className="signin" onSubmit={this.signIn.bind(this)}>
                 <div className="row">
-                    <label>用户名</label>
+                    <label><i className="iconfont icon-user"></i></label>
                     <input type="text" placeholder="请输入您的用户名"
                            value={this.state.formData.username}
                            onChange={this.changeFormData.bind(this,'username')}/>
                 </div>
                 <div className="row">
-                    <label>密码</label>
+                    <label><i className="iconfont icon-pswd"></i></label>
                     <input type="password" placeholder="请输入您的密码"
                            value={this.state.formData.password}
                            onChange={this.changeFormData.bind(this,'password')}/>
                 </div>
-                <div className="row action">
+                <div className="action">
                     <button type="submit">登陆</button>
                 </div>
+                <div className="forget"><a href="javascript:;">忘记密码?</a></div>
             </form>
         )
 
         return(
             <div className="userDialog-wrapper">
                 <div className="userDialog">
-                    <nav onChange={this.switch.bind(this)}>
-                        <label>
-                            <input type="radio" value="signUp" 
-                                   checked={this.state.slected === "signUp"} 
-                                   onChange={this.switch.bind(this)}/>注册
-                        </label>
-                        <label>
-                            <input type="radio" value="signIn" 
-                                   checked={this.state.slected === "signIn"}
-                                   onChange={this.switch.bind(this)}/>登陆
-                        </label>
+                    <nav>
+                        <h1>ToDo<i className="iconfont icon-todo"></i></h1>
+                        <div className="nav-inner">
+                            <label>
+                                <input type="radio" value="signUp" 
+                                    checked={this.state.slected === "signUp"} 
+                                    onChange={this.switch.bind(this)}/>
+                            </label>
+                            <label>
+                                <input type="radio" value="signIn" 
+                                    checked={this.state.slected === "signIn"}
+                                    onChange={this.switch.bind(this)}/>
+                            </label>
+                        </div>
                     </nav>
                     <div className="userDialog-content">
                         {this.state.slected === "signUp"? signUpForm : null}
@@ -81,7 +92,7 @@ class userDialog extends React.Component{
 
     signUp(e){
         e.preventDefault()
-        let {username, password} = this.state.formData
+        let {email,username, password} = this.state.formData
         let success = (user) => {
             this.props.onSignup(user)
         }
@@ -97,7 +108,7 @@ class userDialog extends React.Component{
             }
         }
         
-        signUp(username,password,success,error)
+        signUp(email,username,password,success,error)
     }
 
     signIn(e){

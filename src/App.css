@@ -19,10 +19,38 @@
   text-align: left;
 }
 
-.App-header h1{
-  display: inline-block;
+.App-header .user-bar{
   float: right;
+}
+
+.user-bar h1{
+  display: inline-block;
   font-weight: lighter;
+  padding-right: 20px;
+}
+
+.user-bar button{
+  border: none;
+  background: none;
+  outline: none;
+}
+.user-bar button .hide{
+  display: none;
+}
+
+.user-bar button:hover{
+  cursor: pointer;
+  opacity: 0.7;
+}
+.user-bar button:hover .hide{
+  display: inline-block;
+  vertical-align: text-top;
+  padding-left: 4px;
+  color: #405878;
+}
+.user-bar button i{
+  color: #6DBCAF; 
+  font-size: 24px;
 }
 
 .ttl{
@@ -86,11 +114,10 @@
   opacity: 0.6;
 }
 .add i{
-  font-size: 32px;
+  font-size: 26px;
   color: #6DBCAF;
-  font-weight: bold;
   padding-left: 10px;
-  vertical-align: middle;
+  vertical-align: sub;
 }
 
 
@@ -155,4 +182,144 @@
 .items ol li .content.completed{
   text-decoration-line: line-through;
   color: #ccc;
+}
+
+.userDialog-wrapper{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 6;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.userDialog{
+  width:440px;
+  height: 320px;
+  background: #fff;
+  opacity: 100;
+  border-radius: 10px;
+  box-shadow: 0px 1px 4px 2px rgba(79,79,79,0.3);
+}
+
+.userDialog nav{
+  padding: 14px 0 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: relative;
+}
+.userDialog nav h1{
+  margin: 0 0 20px;
+  color: #6DBCAF;
+}
+.userDialog nav h1 i{
+  padding-left: 10px;
+  font-size: 27px;
+}
+.nav-inner{
+  padding: 9px 0;
+  border: 1px solid #ccc;
+  border-radius: 24px;
+  display: inline-block;
+}
+.userDialog nav label{
+  position: relative;
+  padding: 8px 48px;
+  border-radius: 24px;
+}
+
+.userDialog nav label input{
+  appearance: none;
+  outline: none;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: none;
+  border-radius: 24px;
+  padding: 10px 22px;
+  text-align: center;
+}
+.userDialog nav label input:after{
+  content: "";
+  font-size: 16px;
+  color: #ccc;
+}
+.userDialog nav label:first-child input:after{
+  content: "注册"
+}
+.userDialog nav label:last-child input:after{
+  content: "登陆"
+}
+
+.userDialog nav label input:checked:after{
+  color: #fff;
+}
+.userDialog nav label input:checked{
+  background-color: #6DBCAF;
+}
+.userDialog nav label input:hover{
+  cursor: pointer;
+}
+
+.userDialog-content input{
+  border: none;
+  outline: none;
+}
+.userDialog-content .row{
+  margin-bottom: 14px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+}
+.userDialog-content form{
+  padding: 0 84px;
+}
+.userDialog-content .row:after{
+  content: "";
+  display: block;
+  clear: both;
+  visibility: hidden;
+}
+.userDialog-content .row label{
+  display: inline-block;
+  float: left;
+}
+.userDialog-content .row label i{
+  color: #6DBCAF;
+  font-size: 18px;
+  font-weight: bold;
+}
+.userDialog-content .row input{
+  float: left;
+  padding-left: 10px;
+  height: 100%;
+}
+
+.userDialog-content .action button{
+  border:2px solid #6DBCAF;
+  background: #fff;
+  color: #405878;
+  border-radius: 10px;
+  padding: 8px 30px;
+  position: relative;
+  outline: none;
+}
+.userDialog-content .action button:hover{
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.forget{
+  margin-top: 6px;
+}
+.forget a{
+  font-size: 14px;
+  color: rgb(104, 104, 104);
+  font-weight: lighter;
 }
