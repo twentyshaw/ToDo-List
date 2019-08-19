@@ -7,15 +7,17 @@ export default class SignInForm extends React.Component{
             <form className="signin" onSubmit={this.signIn.bind(this)}>
                 <div className="row">
                     <label><i className="iconfont icon-user"></i></label>
-                    <input type="text" placeholder="请输入您的用户名"
+                    <input className="input-username"
+                           type="text" placeholder="请输入您的用户名"
                            value={this.props.formData.username}
-                           onChange={this.props.changeFormData.bind(null,'username')}/>
+                           onChange={this.props.changeFormData.bind(null,'username')} required/>
                 </div>
                 <div className="row">
                     <label><i className="iconfont icon-pswd"></i></label>
-                    <input type="password" placeholder="请输入您的密码"
+                    <input className="input-password"
+                           type="password" placeholder="请输入您的密码"
                            value={this.props.formData.password}
-                           onChange={this.props.changeFormData.bind(null,'password')}/>
+                           onChange={this.props.changeFormData.bind(null,'password')} required/>
                 </div>
                 <div className="action">
                     <button type="submit">登陆</button>

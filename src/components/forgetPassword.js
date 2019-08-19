@@ -12,9 +12,10 @@ export default class ForgetPassword extends React.Component{
                     <form className="forgetOff" onSubmit={this.resetPass.bind(this)}>
                         <div className="row">
                             <label><i className="iconfont icon-mail"></i></label>
-                            <input type="text" placeholder="请输入您的电子邮件地址"
+                            <input className="input-mail"
+                                type="text" placeholder="请输入您的电子邮件地址"
                                 value={this.props.formData.email}
-                                onChange={this.props.changeFormData.bind(null,'email')}/>
+                                onChange={this.props.changeFormData.bind(null,'email')} required/>
                         </div>
                         <div className="action">
                             <button type="submit">获取重置密码地址</button>
