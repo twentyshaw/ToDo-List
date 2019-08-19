@@ -299,6 +299,7 @@
   float: left;
   padding-left: 10px;
   height: 100%;
+  width: 90%;
 }
 
 .userDialog-content .action button{

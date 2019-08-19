@@ -4,7 +4,7 @@ import './App.css';
 import Input from './components/input';
 import Item from './components/items';
 import UserDialog from './user'
-import { getUserCurrent, signOut } from './leanCloud'
+import { getUserCurrent, signOut, TodoModel } from './leanCloud'
 
 class App extends React.Component{
   constructor(){
@@ -14,12 +14,20 @@ class App extends React.Component{
       user:getUserCurrent() || {},
       index: 0,
       toDoLists: [
-        {id:this.index, 
+        {id:null, 
          title:'GOAL',
-         content:'等待添加',
-         status:null,
+         content:'来添加你的第一条待办吧！',
+         status:'',
          deleted: false}
       ]
+    }
+    let user = getUserCurrent()
+    if (user) {
+      TodoModel.getByUser(user, (todos) => {
+        let stateCopy = JSON.parse(JSON.stringify(this.state))
+        stateCopy.toDoLists = todos
+        this.setState(stateCopy)
+      })
     }
   }
 
@@ -37,7 +45,7 @@ class App extends React.Component{
       <div className="App">
         {this.state.user.id?
           null:
-          <UserDialog onSignup={this.onSignupOrSignIn.bind(this)}
+          <UserDialog onSignUp={this.onSignupOrSignIn.bind(this)}
                       onSignIn={this.onSignupOrSignIn.bind(this)}/>}
         <header className="App-header">
           <div className="ttl">ToDo<i className="iconfont icon-todo"></i></div>
@@ -74,6 +82,7 @@ class App extends React.Component{
     let stateCopy = JSON.parse(JSON.stringify(this.state))
     stateCopy.user = user
     this.setState(stateCopy)
+    window.location.reload(true); 
   }
 
   changeCont(e){
@@ -84,32 +93,45 @@ class App extends React.Component{
 
   add(e){
       if(this.state.index>0){
-        this.state.toDoLists.push({
-          id: this.idMaker(),
+        let newTodoItem = {
+          id: null,
           title: "GOAL",
           content: e.target.value,
-          status:null,
+          status:'',
           deleted: false
-        })
-        this.setState({
-          newTodo: '',
-          toDoLists: this.state.toDoLists
+        }
+        TodoModel.create(newTodoItem,(id)=>{
+          newTodoItem.id = id
+          this.state.toDoLists.push(newTodoItem)
+          this.setState({
+            newTodo:'',
+            toDoLists: this.state.toDoLists
+          })
+        }, (error)=>{
+          console.log(error)
         })
       }else{
-        this.setState({
-          newTodo: '',
-          toDoLists: [
-            {id: 1, 
-            title:"GOAL",
-            content:e.target.value,
-            status:null,
-            deleted: false}]
+        let firstTodo = {
+          id:null, 
+          title:'GOAL',
+          content:e.target.value,
+          status:'',
+          deleted: false
+        }
+        TodoModel.create(firstTodo,(id)=>{
+          firstTodo.id = id
+          this.setState({
+            newTodo:'',
+            toDoLists: [{...firstTodo}]
+          })
+        }, (error)=>{
+          console.log(error)
         })
-        this.idMaker()
       }
+      this.indexMaker()
   }
 
-  idMaker(){
+  indexMaker(){
       let number = this.state.index + 1
       this.setState({
         index: number
@@ -118,16 +140,21 @@ class App extends React.Component{
   }
 
   toggle(e,todo){
-    console.log(todo.status)
+    let oldStatus = todo.status
     todo.status = todo.status === 'completed' ? '' : 'completed'
-    this.setState(this.state) 
-    console.log(todo.status)
+    TodoModel.update(todo,()=>{
+      this.setState(this.state)
+    }, (error)=>{
+      todo.status = oldStatus
+      this.setState(this.state)
+      console.log(error)
+    })
   }
 
   delete(e,todo){
-    todo.deleted = true
-    this.setState({
-      deleted:true
+    TodoModel.destroy(todo.id, ()=>{
+      todo.deleted = true
+      this.setState(this.state)
     })
   }
 

@@ -16,7 +16,11 @@ class Input extends React.Component{
 
     submit(e){
         if (e.key === 'Enter') {
-            this.props.submitOn(e)        
+            if (e.target.value.trim() !== "") {
+                this.props.submitOn(e)                  
+            }else{
+                alert("你还没有输入任何内容！")
+            }
         }
     }
 }
